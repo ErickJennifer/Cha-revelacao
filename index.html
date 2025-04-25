@@ -90,26 +90,36 @@
   <footer>
     <p>Com carinho, Jennifer & Erick</p>
   </footer>
+  
+<script>
+  const form = document.getElementById('formulario');
 
-  <script>
-    const countdownElement = document.getElementById('countdown');
-    const eventDate = new Date("2025-05-01T15:00:00").getTime();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    const countdown = setInterval(function () {
-      const now = new Date().getTime();
-      const distance = eventDate - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-      countdownElement.innerHTML = `Faltam ${days} dias, ${hours} horas e ${minutes} minutos!`;
-
-      if (distance < 0) {
-        clearInterval(countdown);
-        countdownElement.innerHTML = "O grande dia chegou!";
+    const data = {
+      data: {
+        nome: form.nome.value,
+        acompanhantes: form.acompanhantes.value,
       }
-    }, 1000);
-  </script>
+    };
+
+    try {
+      await fetch('https://sheetdb.io/api/v1/l61d3sis5db1q', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      // Redireciona para a página de agradecimento
+      window.location.href = "obrigado.html";
+    } catch (error) {
+      alert('Erro ao confirmar. Tente novamente.');
+    }
+  });
+</script>
+  
 </body>
 </html>
